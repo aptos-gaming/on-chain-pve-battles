@@ -12,6 +12,7 @@ import CreateUnitContractForm from './components/CreateUnitContractForm'
 import AllContractsTable from './components/AllContractsTable'
 import AllEnemyLevelsTable from './components/AllEnemyLevelsTable'
 import UnitsList from './components/UnitsList'
+import EventsTable from './components/EventsTable'
 import useCoinBalances from './context/useCoinBalances';
 import { CoinBalancesQuery } from './components/CoinBalance';
 
@@ -70,6 +71,7 @@ const PvELayout = () => {
   const { account, signAndSubmitTransaction } = useWallet();
   const apolloClient = useApolloClient()
 
+  const [attackedEvents, setAttackedEvents] = useState<any>([])
   const [maxUnits, setMaxUnits] = useState(0)
   const [unitsList, setUnitsList] = useState<Array<Unit>>([])
   const [contractsList, setContractsList] = useState<Array<Contract>>([])
@@ -92,7 +94,7 @@ const PvELayout = () => {
       const allUnitsResponse: any = await provider.view(payload)
       setUnitsList(allUnitsResponse[0].data)
     } catch(e) {
-      console.log("Error during getting units list")
+      console.log("ERROR during getting units list")
       console.log(e)
     }
   }
@@ -108,7 +110,7 @@ const PvELayout = () => {
       const allContractsResponse: any = await provider.view(payload)
       setContractsList(allContractsResponse[0].data)
     } catch(e) {
-      console.log("Error during getting contracts list")
+      console.log("ERROR during getting contracts list")
       console.log(e)
     }
   }
@@ -124,7 +126,7 @@ const PvELayout = () => {
       const allEnemyLevelsResponse: any = await provider.view(payload)
       setEnemyLevelsList(allEnemyLevelsResponse[0].data)
     } catch(e) {
-      console.log("Error during getting enemy levels list")
+      console.log("ERROR during getting enemy levels list")
       console.log(e)
     }
   }
@@ -269,11 +271,28 @@ const PvELayout = () => {
     }
   }
 
+  const getEnemyAttackedEvents = async () => {
+    const eventStore = `${CONFIG.moduleAddress}::${PackageName}::Events`
+
+    try {
+      const attackedEvents = await client.getEventsByEventHandle(account?.address || '', eventStore, "enemy_attacked_event")
+  
+      console.log("Events: ", attackedEvents)
+      setAttackedEvents(attackedEvents)
+    } catch (e: any) {
+      const errorMessage = JSON.parse(e.message)
+      if (errorMessage.error_code === "resource_not_found") {
+        console.log("No attackes for now")
+      }
+    }
+  }
+
   useEffect(() => {
     if (account?.address) {
       getUnitsList()
       getContractsList()
       getEnemysList()
+      getEnemyAttackedEvents()
     }
   }, [account])
 
@@ -344,6 +363,7 @@ const PvELayout = () => {
         onRemoveEnemyLevel={onRemoveEnemyLevel}
       />
       <div className="divider" />
+      <EventsTable data={attackedEvents} />
       {/* Modal to attack PvE enemy */}
       <Modal
         title={`Attack ${selectedLevel?.name}`}

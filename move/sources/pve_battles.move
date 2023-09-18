@@ -2,12 +2,12 @@ module owner_addr::pve_battles {
   use std::signer;
   use std::bcs;
   use std::vector;
-  use std::string::{ String };
+  use std::string::{ Self, String };
 
   use aptos_std::math64;
   use aptos_std::type_info::{ Self, TypeInfo };
   use aptos_std::simple_map::{ Self, SimpleMap };
-  
+
   use aptos_framework::account;
   use aptos_framework::resource_account;
   use aptos_framework::timestamp;
@@ -95,6 +95,7 @@ module owner_addr::pve_battles {
   const E_NO_ENEMY_LEVELS_EXISTS: u64 = 9;
   const E_NO_ENEMY_LEVEL: u64 = 10;
   const E_INVALID_ADDRESS_FOR_MINT: u64 = 11;
+  const E_INVALID_ACCESS_RIGHTS: u64 = 12;
 
   // save signer_cap to AdminData and Events on resource signer
   fun init_module(resource_signer: &signer) {
@@ -235,7 +236,7 @@ module owner_addr::pve_battles {
     let contract_data = simple_map::borrow(&unit_contracts_data.map, &contract_id);
 
     // check if passed CoinType equal to saved CoinType
-    assert(coin_address<CoinType>() == contract_data.resource_type_info, E_INVALID_COIN_TYPE); 
+    assert!(coin_address<CoinType>() == type_info::account_address(&contract_data.resource_type_info), E_INVALID_COIN_TYPE); 
 
     // based on fixed price in contract - calculate number of unit need to be mint
     let unit_coin_decimals = coin::decimals<UnitType>();
@@ -335,6 +336,9 @@ module owner_addr::pve_battles {
   }
 
   public entry fun remove_enemy_level(creator: &signer, enemy_level_id: u64) acquires EnemyLevels {
+    let creator_addr = signer::address_of(creator);
+    assert!(creator_addr == @source_addr, E_INVALID_ACCESS_RIGHTS);
+
     // check if creator has EnemyLevels
     assert!(exists<EnemyLevels>(@source_addr), E_NO_ENEMY_LEVELS_EXISTS);
     let enemy_levels_data = borrow_global_mut<EnemyLevels>(@source_addr);
