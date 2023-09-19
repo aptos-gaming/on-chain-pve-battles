@@ -27,7 +27,7 @@ const CreateEnemyLevelForm = ({ getEnemysList }: CreateEnemyLevelFormProps) => {
   const [form] = Form.useForm()
   const { coinBalances } = useCoinBalances()
 
-  const [name, setName] = useState<string>('Barbarian Level 1')
+  const [name, setName] = useState<string>('Space pirate (easy)')
   const [attack, setAttack] = useState(10)
   const [health, setHealth] = useState(10)
   const [rewardCoin1Amount, setRewardCoin1Amount] = useState(100)

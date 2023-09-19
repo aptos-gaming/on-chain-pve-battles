@@ -54,12 +54,6 @@ const AllContractsTable = ({ units, contracts, onRemoveContract, onSelectedContr
           render={(value: any) => value}
         />
         <Column
-          title="Price"
-          dataIndex="value"
-          key="fixed_price"
-          render={(value: any) => `${value.fixed_price} ${hexToText(value.resource_type_info.struct_name)}`}
-        />
-        <Column
           title="Unit"
           dataIndex="value"
           key="unit"
@@ -69,15 +63,25 @@ const AllContractsTable = ({ units, contracts, onRemoveContract, onSelectedContr
           }}
         />
         <Column
+          title="Price"
+          dataIndex="value"
+          key="fixed_price"
+          render={(value: any) => `${value.fixed_price} ${hexToText(value.resource_type_info.struct_name)}`}
+        />
+
+        <Column
           title="Action"
           key="action"
           render={(_:any, record: any) => (
+            <>
+            <Button>Buy</Button>
             <Button
               style={{ color: "black !important"}}
               onClick={() => onRemoveContract(record.key)}
             >
               Remove
             </Button>
+            </>
           )}
         />
       </Table>

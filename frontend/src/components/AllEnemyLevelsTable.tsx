@@ -17,7 +17,8 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
 
   return (
     <div style={{ marginBottom: '2rem' }}>
-      <h3>All Enemy Levels by Creator {account?.address}</h3>
+      {/* <h3>All Enemy Levels by Creator {account?.address}</h3> */}
+      <h3>Available NPCs</h3>
       <Table
         dataSource={levels || []}
         onRow={(record, _index) => ({ onClick: () => {
@@ -33,6 +34,11 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
         <Column
           title="Level Id"
           dataIndex="key"
+          key="key"
+        />
+        <Column
+          title="Image"
+          dataIndex="value"
           key="key"
         />
         <Column
@@ -67,6 +73,7 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
           title="Action"
           key="action"
           render={(_:any, record: any) => (
+            <>
             <Button
               style={{ color: "black !important", zIndex: 999 }}
               onClick={(e) => {
@@ -76,6 +83,7 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
             >
               Remove
             </Button>
+            </>
           )}
         />
       </Table>

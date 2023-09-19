@@ -7,6 +7,7 @@ body {
   padding-top: 2.5rem;
   padding-left: 10%;
   padding-right: 10%;
+  font-family: sans-serif;
 }
 
 label, h3, p {
@@ -19,6 +20,8 @@ label, h3, p {
   margin-top: 1rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
+  border-bottom: 1px solid #88898a;
+  padding-bottom: 20px;
 }
 
 .balance-container {
@@ -39,16 +42,21 @@ label, h3, p {
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 0.5rem;
+  margin-top: 5px;
 }
 
 .balance-container .coin-symbol {
   margin-left: 0.25rem;
+  font-size: 15px;
 }
 
 
 .create-unit-form {
   margin-top: 4rem;
   margin-bottom: 4rem;
+  padding: 50px;
+  background: #ffffff17;
+  border-radius: 15px;
 }
 
 .create-unit-form label {
@@ -109,4 +117,14 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.admin-switch {
+  margin: 15px 0;
+}
+
+.show-admin-panel {
+  color: #fff;
+  padding-right: 15px;
+  margin: 15px 0;
 }

@@ -32,11 +32,13 @@ interface BalanceContainerProps {
 
 const BalanceContainer = ({ coinData }: any) => (
   <span className='balance-container'>
+    <span><img src={`/${coinData.coin_info.symbol}.png`} alt={coinData.coin_info.symbol} /></span>
     <span style={{ fontWeight: 'bold'}}>
       {coinData.amount ? (coinData.amount / 10 ** Decimals).toFixed(2) : 0}
     </span>
+
     <span className="coin-symbol">{coinData.coin_info.name}</span>
-    <span className="coin-symbol">({coinData.coin_info.symbol})</span>
+    {/* <span className="coin-symbol">({coinData.coin_info.symbol})</span> */}
   </span>
 )
 

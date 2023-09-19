@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Modal, Slider, InputNumber } from 'antd'
+import { Row, Col, Button, Modal, Slider, InputNumber, Switch } from 'antd'
 import { Provider, Network } from 'aptos'
 import { useWallet } from '@aptos-labs/wallet-adapter-react'
 import { AptosClient } from 'aptos'
@@ -82,6 +82,12 @@ const PvELayout = () => {
   } | null>(null)
   const [numberOfUnits, setNumberOfUnits] = useState<number>(1)
   const [unitsForAttack, setUnitsForAttack] = useState<any>({})
+
+  // Toggle admin panel
+  const [showBlock, setShowBlock] = useState(false);
+  const toggleBlock = (checked: boolean) => {
+    setShowBlock(checked);
+  };
 
   const getUnitsList = async () => {
     const payload = {
@@ -340,30 +346,38 @@ const PvELayout = () => {
       {coinBalances.length === 0 && (
         <Button type="primary" onClick={onMintCoins}>Mint Coins</Button>
       )}
-      <CreateUnitForm unitsList={unitsList} getUnitsList={getUnitsList} />
+      <Col className='admin-switch'>
+        <span className='show-admin-panel'>Show admin panel</span>
+        <Switch checked={showBlock} onChange={toggleBlock} />
+      </Col>
       <UnitsList unitsList={unitsList} />
-      <div className="divider" />
-      <CreateUnitContractForm
-        unitsList={unitsList}
-        getContractsList={getContractsList}
-      />
-      <AllContractsTable
-        units={unitsList}
-        contracts={contractsList}
-        onSelectedContract={setSelectedContract}
-        onRemoveContract={onRemoveContract}
-      />
-      <div className="divider" />
-      <CreateEnemyLevelFrom
-        getEnemysList={getEnemysList}
-      />
-      <AllEnemyLevelsTable
-        levels={enemyLevelsList}
-        onSelectedLevel={setSelectedLevel}
-        onRemoveEnemyLevel={onRemoveEnemyLevel}
-      />
-      <div className="divider" />
-      <EventsTable data={attackedEvents} />
+      {showBlock && (
+        <>
+          <div className="divider" />
+          <CreateUnitForm unitsList={unitsList} getUnitsList={getUnitsList} />
+          <CreateUnitContractForm
+            unitsList={unitsList}
+            getContractsList={getContractsList}
+          />
+          <AllContractsTable
+            units={unitsList}
+            contracts={contractsList}
+            onSelectedContract={setSelectedContract}
+            onRemoveContract={onRemoveContract}
+          />
+          <div className="divider" />
+          <CreateEnemyLevelFrom
+            getEnemysList={getEnemysList}
+          />
+          <AllEnemyLevelsTable
+            levels={enemyLevelsList}
+            onSelectedLevel={setSelectedLevel}
+            onRemoveEnemyLevel={onRemoveEnemyLevel}
+          />
+          <div className="divider" />
+          <EventsTable data={attackedEvents} />
+        </>
+      )}
       {/* Modal to attack PvE enemy */}
       <Modal
         title={`Attack ${selectedLevel?.name}`}

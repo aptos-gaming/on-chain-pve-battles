@@ -19,7 +19,7 @@ const layout = {
   labelCol: { span: 3 },
 };
 
-const tempImageUrl = "https://i.pinimg.com/originals/4c/7b/f7/4c7bf7f83025e35ed2c11f7061a05481.jpg"
+const tempImageUrl = "/scout.png"
 
 interface CreateUnitFormProps {
   unitsList: Array<Unit>,
@@ -30,8 +30,8 @@ const CreateUnitForm = ({ unitsList, getUnitsList }: CreateUnitFormProps) => {
   const { signAndSubmitTransaction } = useWallet()
   const [form] = Form.useForm()
   
-  const [name, setName] = useState<string>('Archer')
-  const [description, setDescription] = useState<string>('Archer Desc')
+  const [name, setName] = useState<string>('Scout')
+  const [description, setDescription] = useState<string>('Small and fast ship with one pilot')
   const [imageUrl, setImageUrl] = useState<string>(tempImageUrl)
 
   const [attack, setAttack] = useState(10)
@@ -124,7 +124,7 @@ const CreateUnitForm = ({ unitsList, getUnitsList }: CreateUnitFormProps) => {
         <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', flexDirection: 'row'}}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Button style={{ marginRight: '2rem' }} onClick={onCreateUnitType} type="primary">Init Unit Type</Button>
-            <span className="tip-text">*init type before create unit</span>
+            <span className="tip-text">Init Type before creating unit</span>
           </div>
           <Button onClick={onCreateUnit} type="primary">Create Unit</Button>
         </div>

@@ -17,15 +17,15 @@ const UnitRow = ({ unitData }: any) => (
   <div className="unit-row">
     <img width="200px" height="200px" src={unitData.image_url} alt="unit" />
     <p>{unitData.name}</p>
-    <p>{unitData.description}</p>
-    <p>Heath (❤️): {unitData.health}</p>
+    <p style={{fontSize: "13px"}}>{unitData.description}</p>
+    <p>Health (❤️): {unitData.health}</p>
     <p>Attack (⚔️): {unitData.attack}</p>
   </div>
 )
 
 const UnitsList = ({ unitsList }: UnitsListProps) => (
   <div>
-    <h3>All created units:</h3>
+    {/* <h3>Existing units:</h3> */}
     <div className="units-list">
       {unitsList.length > 0 && unitsList.map((unitData) => <UnitRow key={unitData.key} unitData={unitData.value}/>)}
     </div>

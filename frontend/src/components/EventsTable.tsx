@@ -30,7 +30,7 @@ const columns = [
 
 const EventsTable = ({ data }: any) => (
   <>
-    <h3>All enemy level attackes events:</h3>
+    <h3>Log of attacks</h3>
     <Table dataSource={data || []} columns={columns} />;
   </>
 )
