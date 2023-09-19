@@ -264,6 +264,7 @@ const PvELayout = () => {
       getContractsList()
       setSelectedContract('')
       setSelectedLevel(null)
+      getEnemyAttackedEvents()
       await apolloClient.refetchQueries({ include: [CoinBalancesQuery]})
     } catch (e) {
       console.log("ERROR during attack enemy")

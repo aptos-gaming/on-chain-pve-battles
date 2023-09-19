@@ -440,3 +440,5 @@ try {
 }
 ```
 
+PvEBattles module deployed on testnet [here](https://explorer.aptoslabs.com/account/0x4406f062da730ac3d5f0f13f76956263c7bae9795f0b9f06f8a056a02551f149?network=testnet)
+
