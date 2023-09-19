@@ -1,31 +1,31 @@
 import React from 'react'
 import { Table } from 'antd'
 
-const Decimals = 8
-
 const columns = [
   {
-    title: 'Time',
-    dataIndex: 'timestamp',
-    key: 'timestamp',
-    render: (time: any) => <p>{new Date(time * 1000).toISOString().split('T')[0]}</p>,
+    title: 'Enemy Level Id',
+    dataIndex: 'data',
+    key: 'enemy_level_id',
+    render: (value: any) => value?.enemy_level_id
   },
   {
-    title: 'Amount',
-    dataIndex: 'coin_amount',
-    key: 'coin_amount',
-    render: (amount: any) => <p>{Number(amount) / 10 ** Decimals} Minerals</p>
+    title: 'Result',
+    dataIndex: 'data',
+    key: 'battle_result',
+    render: (value: any) => value?.result
   },
   {
-    title: 'Level',
-    dataIndex: 'token_level',
-    key: 'token_level',
+    title: 'Total Units Attack',
+    dataIndex: 'data',
+    key: 'total_units_attack',
+    render: (value: any) => value?.total_units_attack
   },
   {
-    title: 'Token Name',
-    dataIndex: 'token_name',
-    key: 'token_name'
-  }
+    title: 'Total Units Health',
+    dataIndex: 'data',
+    key: 'total_units_health',
+    render: (value: any) => value?.total_units_health
+  },
 ];
 
 const EventsTable = ({ data }: any) => (

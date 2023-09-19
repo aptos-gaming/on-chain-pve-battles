@@ -408,3 +408,35 @@ try {
 ```
 
 
+### `Get List of Events`
+
+Module has 2 main events: UnitsPurchasedEvent, EnemyAttackedEvent with following formats:
+
+UnitsPurchasedEvent {
+    unit_id: number,
+    number_of_units: number,
+    total_cost: number,
+    resource_type: TypeInfo,
+}
+
+EnemyAttackedEvent {
+    enemy_level_id: number,
+    total_units_attack: number,
+    total_units_health: number,
+    result: String,
+}
+
+Usage (example with enemy attacked events:
+
+```js
+const eventStore = `${moduleAddress}::pve_battles::Events`
+
+try {
+    const attackedEvents = await client.getEventsByEventHandle(account.address, eventStore, "enemy_attacked_event")
+    console.log(attackedEvents)
+} catch (e) {
+    console.log("Cannot get attacked events")
+    console.log(e)
+}
+```
+

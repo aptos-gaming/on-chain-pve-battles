@@ -97,18 +97,24 @@ module owner_addr::pve_battles {
   const E_INVALID_ADDRESS_FOR_MINT: u64 = 11;
   const E_INVALID_ACCESS_RIGHTS: u64 = 12;
 
-  // save signer_cap to AdminData and Events on resource signer
+  // save signer_cap to AdminData
   fun init_module(resource_signer: &signer) {
     let resource_signer_cap = resource_account::retrieve_resource_account_cap(resource_signer, @source_addr);
 
     move_to(resource_signer, AdminData {
       signer_cap: resource_signer_cap,
     });
+  }
 
-    move_to(resource_signer, Events {
-      units_purchased_event: account::new_event_handle<UnitsPurchasedEvent>(resource_signer),
-      enemy_attacked_event: account::new_event_handle<EnemyAttackedEvent>(resource_signer)
-    });
+  fun init_events(account: &signer) {
+    let account_addr = signer::address_of(account);
+
+    if (!exists<Events>(account_addr)) {
+      move_to(account, Events {
+        units_purchased_event: account::new_event_handle<UnitsPurchasedEvent>(account),
+        enemy_attacked_event: account::new_event_handle<EnemyAttackedEvent>(account)
+      });
+    }
   }
 
   fun create_and_add_unit(
@@ -257,11 +263,12 @@ module owner_addr::pve_battles {
     };
 
     let resource_signer = get_resource_signer();
-    let resource_signer_address = signer::address_of(&resource_signer);
 
     managed_coin::mint<UnitType>(&resource_signer, user_addr, number_of_units_with_decimals);
 
-    let events = borrow_global_mut<Events>(resource_signer_address);
+    init_events(user);
+
+    let events = borrow_global_mut<Events>(user_addr);
 
     // trigger units purchased event
     event::emit_event(
@@ -384,7 +391,6 @@ module owner_addr::pve_battles {
     let total_units_health = number_of_units_without_decimals * unit_data.health;
 
     let resource_signer = get_resource_signer();
-    let resource_signer_address = signer::address_of(&resource_signer);
 
     let result;
 
@@ -408,7 +414,7 @@ module owner_addr::pve_battles {
       result = string::utf8(b"Loose");
     };
 
-    let events = borrow_global_mut<Events>(resource_signer_address);  
+    let events = borrow_global_mut<Events>(user_addr);  
 
     // trigger units purchased event
     event::emit_event(
@@ -449,7 +455,6 @@ module owner_addr::pve_battles {
     let total_units_health = number_of_units_without_decimals * unit_data.health;
 
     let resource_signer = get_resource_signer();
-    let resource_signer_address = signer::address_of(&resource_signer);
 
     let result;
 
@@ -480,7 +485,7 @@ module owner_addr::pve_battles {
       result = string::utf8(b"Loose");
     };
 
-    let events = borrow_global_mut<Events>(resource_signer_address);  
+    let events = borrow_global_mut<Events>(user_addr);  
 
     // trigger enemy attacked event
     event::emit_event(
@@ -532,7 +537,6 @@ module owner_addr::pve_battles {
     let total_units_health = total_units_1_health + total_units_2_health;
 
     let resource_signer = get_resource_signer();
-    let resource_signer_address = signer::address_of(&resource_signer);
 
     let result;
 
@@ -562,7 +566,7 @@ module owner_addr::pve_battles {
       result = string::utf8(b"Loose");
     };
 
-    let events = borrow_global_mut<Events>(resource_signer_address);  
+    let events = borrow_global_mut<Events>(user_addr);  
 
     // trigger enemy attacked event
     event::emit_event(
@@ -614,7 +618,6 @@ module owner_addr::pve_battles {
     let total_units_health = total_units_1_health + total_units_2_health;
 
     let resource_signer = get_resource_signer();
-    let resource_signer_address = signer::address_of(&resource_signer);
 
     let result;
 
@@ -651,7 +654,7 @@ module owner_addr::pve_battles {
       result = string::utf8(b"Loose");
     };
     
-    let events = borrow_global_mut<Events>(resource_signer_address);  
+    let events = borrow_global_mut<Events>(user_addr);  
 
     // trigger enemy attacked event
     event::emit_event(

@@ -277,7 +277,6 @@ const PvELayout = () => {
     try {
       const attackedEvents = await client.getEventsByEventHandle(account?.address || '', eventStore, "enemy_attacked_event")
   
-      console.log("Events: ", attackedEvents)
       setAttackedEvents(attackedEvents)
     } catch (e: any) {
       const errorMessage = JSON.parse(e.message)
@@ -405,9 +404,9 @@ const PvELayout = () => {
               </div>
             )}
           )}
-          <p style={{ color: 'black' }}>Total Units: {Number(Object.values(unitsForAttack).reduce((acc: any, value: any) => acc + Number(value.split('-')[0]), 0))}</p>
-          <p style={{ color: 'black' }}>Total Attack: {getTotalValues().attack} (⚔️)</p>
-          <p style={{ color: 'black' }}>Total Health: {getTotalValues().health} (❤️)</p>
+          <p className="black-text">Total Units: {Number(Object.values(unitsForAttack).reduce((acc: any, value: any) => acc + Number(value.split('-')[0]), 0))}</p>
+          <p className="black-text">Total Attack: {getTotalValues().attack} (⚔️)</p>
+          <p className="black-text">Total Health: {getTotalValues().health} (❤️)</p>
           <div className="buy-units-buttons">
             <Button onClick={() => setSelectedLevel(null)}>
               Cancel
@@ -443,7 +442,7 @@ const PvELayout = () => {
             <InputNumber value={numberOfUnits} onChange={(value) => setNumberOfUnits(Number(value))} />
           </Col>
         </Row>
-        <p style={{ color: 'black' }}>Total Cost: {numberOfUnits * selectedContract?.fixedPrice} {selectedContract?.resourceName}</p>
+        <p className="black-text">Total Cost: {numberOfUnits * selectedContract?.fixedPrice} {selectedContract?.resourceName}</p>
         <div className="buy-units-buttons">
           <Button onClick={() => setSelectedContract(null)}>
             Cancel
