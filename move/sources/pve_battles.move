@@ -411,7 +411,7 @@ module owner_addr::pve_battles {
     } else {
       // loose battle
       // burn all units
-      coin::transfer<UnitType>(user, @owner_addr, number_of_units / 2);
+      coin::transfer<UnitType>(user, @owner_addr, number_of_units);
       managed_coin::burn<UnitType>(&resource_signer, number_of_units);
       result = string::utf8(b"Loose");
     };
@@ -486,7 +486,7 @@ module owner_addr::pve_battles {
     } else {
       // loose
       // burn all units
-      coin::transfer<UnitType>(user, @owner_addr, number_of_units / 2);
+      coin::transfer<UnitType>(user, @owner_addr, number_of_units);
       managed_coin::burn<UnitType>(&resource_signer, number_of_units);
       result = string::utf8(b"Loose");
     };
