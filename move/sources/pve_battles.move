@@ -282,7 +282,6 @@ module owner_addr::pve_battles {
     );
   }
 
-
   // add new enemy level
   public entry fun create_enemy_level<CoinType>(
     creator: &signer, name: String, attack: u64, health: u64, reward_coin_amount: u64,
@@ -357,13 +356,12 @@ module owner_addr::pve_battles {
   }
 
   // Battle Logic:
-  // if attacker win a battle -> mint/transafer to his address amount of reward coin based on reward type
-  // if attacker loose - remove/burn some amount of his units and return the rest
+  // if attacker win a battle -> mint to his address amount of reward coin based on reward type
+  // if attacker loose - burn half of his units and return the rest
   // 
-  // for basic version we can caclulate total attack and total health
   // to WIN:
-  // 1. total user units health value should be bigger than enemy attack value 
-  // 2. total user units attack value should be bigger than enemy health value 
+  // - total user units health value should be bigger than enemy attack value 
+  // - total user units attack value should be bigger than enemy health value 
   public entry fun attack_enemy_with_one_unit_one_reward<RewardCoinType, UnitType>(
     user: &signer, enemy_level_id: u64, number_of_units: u64, unit_id: u64,
   ) acquires EnemyLevels, Units, AdminData, Events {
@@ -375,13 +373,17 @@ module owner_addr::pve_battles {
     assert!(simple_map::contains_key(&enemy_levels_data.map, &enemy_level_id), E_NO_ENEMY_LEVEL);
     let enemy_level_data = *simple_map::borrow<u64, EnemyLevel>(&enemy_levels_data.map, &enemy_level_id);
     
+    // check if user has enough units
+    assert!(coin::balance<UnitType>(user_addr) >= number_of_units, E_INSUFFICIENT_COIN_BALANCE);
+
     // read units data 
     let units_data = borrow_global<Units>(@source_addr);
 
     assert!(simple_map::contains_key(&units_data.map, &unit_id), E_NO_UNIT_IN_UNITS);
     let unit_data = simple_map::borrow(&units_data.map, &unit_id);
-    // @todo: double check if passed UnitType is equal to saved UnitType in unit_data
-    // so user cannot send some shit coins and try to win
+    
+    // check if passed UnitType is equal to saved UnitType in unit_data
+    assert!(unit_data.linked_coin_type == type_info::type_name<UnitType>(), E_INVALID_COIN_TYPE); 
 
     let unit_coin_decimals = coin::decimals<UnitType>();
     let number_of_units_without_decimals = number_of_units / math64::pow(10, (unit_coin_decimals as u64 ));
@@ -439,13 +441,17 @@ module owner_addr::pve_battles {
     assert!(simple_map::contains_key(&enemy_levels_data.map, &enemy_level_id), E_NO_ENEMY_LEVEL);
     let enemy_level_data = *simple_map::borrow<u64, EnemyLevel>(&enemy_levels_data.map, &enemy_level_id);
     
+    // check if user has enough units
+    assert!(coin::balance<UnitType>(user_addr) >= number_of_units, E_INSUFFICIENT_COIN_BALANCE);
+
     // read units data 
     let units_data = borrow_global<Units>(@source_addr);
 
     assert!(simple_map::contains_key(&units_data.map, &unit_id), E_NO_UNIT_IN_UNITS);
     let unit_data = simple_map::borrow(&units_data.map, &unit_id);
-    // @todo: double check if passed UnitType is equal to saved UnitType in unit_data
-    // so user cannot send some shit coins and try to win
+    
+    // check if passed UnitType is equal to saved UnitType in unit_data
+    assert!(unit_data.linked_coin_type == type_info::type_name<UnitType>(), E_INVALID_COIN_TYPE); 
 
     let unit_coin_decimals = coin::decimals<UnitType>();
     let number_of_units_without_decimals = number_of_units / math64::pow(10, (unit_coin_decimals as u64 ));
@@ -510,6 +516,10 @@ module owner_addr::pve_battles {
     assert!(simple_map::contains_key(&enemy_levels_data.map, &enemy_level_id), E_NO_ENEMY_LEVEL);
     let enemy_level_data = *simple_map::borrow<u64, EnemyLevel>(&enemy_levels_data.map, &enemy_level_id);
     
+    // check if user has enough units
+    assert!(coin::balance<UnitType1>(user_addr) >= number_of_units_1, E_INSUFFICIENT_COIN_BALANCE);
+    assert!(coin::balance<UnitType2>(user_addr) >= number_of_units_2, E_INSUFFICIENT_COIN_BALANCE);
+
     // read units data 
     let units_data = borrow_global<Units>(@source_addr);
 
@@ -518,14 +528,15 @@ module owner_addr::pve_battles {
     
     let unit_1_data = simple_map::borrow(&units_data.map, &unit_id_1);
     let unit_2_data = simple_map::borrow(&units_data.map, &unit_id_2);
-    // @todo: double check if passed UnitType1 is equal to saved UnitType1 in unit_data and check UnitType2
-    // so user cannot send some shit coins and try to win
 
+    // check if passed UnitType is equal to saved UnitType in unit_data
+    assert!(unit_1_data.linked_coin_type == type_info::type_name<UnitType1>(), E_INVALID_COIN_TYPE); 
+    assert!(unit_2_data.linked_coin_type == type_info::type_name<UnitType2>(), E_INVALID_COIN_TYPE); 
+    
     let unit_1_coin_decimals = coin::decimals<UnitType1>();
     let number_of_units_1_without_decimals = number_of_units_1 / math64::pow(10, (unit_1_coin_decimals as u64 ));
     let unit_2_coin_decimals = coin::decimals<UnitType2>();
     let number_of_units_2_without_decimals = number_of_units_2 / math64::pow(10, (unit_2_coin_decimals as u64 ));
-
 
     // calculate total health and total attack value for units 
     let total_units_1_attack = number_of_units_1_without_decimals * unit_1_data.attack;
@@ -591,6 +602,10 @@ module owner_addr::pve_battles {
     assert!(simple_map::contains_key(&enemy_levels_data.map, &enemy_level_id), E_NO_ENEMY_LEVEL);
     let enemy_level_data = *simple_map::borrow<u64, EnemyLevel>(&enemy_levels_data.map, &enemy_level_id);
     
+    // check if user has enough units
+    assert!(coin::balance<UnitType1>(user_addr) >= number_of_units_1, E_INSUFFICIENT_COIN_BALANCE);
+    assert!(coin::balance<UnitType2>(user_addr) >= number_of_units_2, E_INSUFFICIENT_COIN_BALANCE);
+
     // read units data 
     let units_data = borrow_global<Units>(@source_addr);
 
@@ -599,9 +614,11 @@ module owner_addr::pve_battles {
     
     let unit_1_data = simple_map::borrow(&units_data.map, &unit_id_1);
     let unit_2_data = simple_map::borrow(&units_data.map, &unit_id_2);
-    // @todo: double check if passed UnitType1 is equal to saved UnitType1 in unit_data and check UnitType2
-    // so user cannot send some shit coins and try to win
 
+    // check if passed UnitType is equal to saved UnitType in unit_data
+    assert!(unit_1_data.linked_coin_type == type_info::type_name<UnitType1>(), E_INVALID_COIN_TYPE); 
+    assert!(unit_2_data.linked_coin_type == type_info::type_name<UnitType2>(), E_INVALID_COIN_TYPE); 
+    
     let unit_1_coin_decimals = coin::decimals<UnitType1>();
     let number_of_units_1_without_decimals = number_of_units_1 / math64::pow(10, (unit_1_coin_decimals as u64 ));
     let unit_2_coin_decimals = coin::decimals<UnitType2>();
