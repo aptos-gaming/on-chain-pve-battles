@@ -32,15 +32,16 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
         })}
       >
         <Column
+          title=""
+          dataIndex="value"
+          key="key"
+          render={(value: any) => <img width="200px" height="200px" src='/pirate.png' alt="Pirate" />}
+        />
+        {/* <Column
           title="Level Id"
           dataIndex="key"
           key="key"
-        />
-        <Column
-          title="Image"
-          dataIndex="value"
-          key="key"
-        />
+        /> */}
         <Column
           title="Name"
           dataIndex="value"
@@ -51,13 +52,13 @@ const AllEnemyLevelsTable = ({ levels, onSelectedLevel, onRemoveEnemyLevel }: Al
           title="Attack"
           dataIndex="value"
           key="attack"
-          render={(value: any) => value?.attack}
+          render={(value: any) => `⚔️ ${value?.attack} `}
         />
         <Column
           title="Health"
           dataIndex="value"
           key="unit"
-          render={(value: any) => value?.health}
+          render={(value: any) => `❤️ ${value?.health}`}
         />
         <Column
           title="Reward"

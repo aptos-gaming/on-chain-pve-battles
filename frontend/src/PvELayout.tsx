@@ -351,6 +351,11 @@ const PvELayout = () => {
         <Switch checked={showBlock} onChange={toggleBlock} />
       </Col>
       <UnitsList unitsList={unitsList} />
+      <AllEnemyLevelsTable
+        levels={enemyLevelsList}
+        onSelectedLevel={setSelectedLevel}
+        onRemoveEnemyLevel={onRemoveEnemyLevel}
+      />
       {showBlock && (
         <>
           <div className="divider" />
@@ -368,11 +373,6 @@ const PvELayout = () => {
           <div className="divider" />
           <CreateEnemyLevelFrom
             getEnemysList={getEnemysList}
-          />
-          <AllEnemyLevelsTable
-            levels={enemyLevelsList}
-            onSelectedLevel={setSelectedLevel}
-            onRemoveEnemyLevel={onRemoveEnemyLevel}
           />
           <div className="divider" />
           <EventsTable data={attackedEvents} />

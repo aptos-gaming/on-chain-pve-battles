@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react"
-import { Form, Input, Button, Select } from "antd"
+import React, { useState } from "react"
+import { Form, Input, Button } from "antd"
 import { useWallet } from "@aptos-labs/wallet-adapter-react"
 import { AptosClient } from "aptos"
 
 import { Unit } from '../PvELayout'
 import CONFIG from "../config.json"
-
-const { Option } = Select;
 
 const PackageName = "pve_battles"
 
@@ -14,10 +12,9 @@ const DevnetClientUrl = "https://fullnode.devnet.aptoslabs.com/v1"
 const TestnetClientUrl = "https://fullnode.testnet.aptoslabs.com"
 const client = new AptosClient(CONFIG.network === "devnet" ? DevnetClientUrl : TestnetClientUrl)
 
-
 const layout = {
   labelCol: { span: 3 },
-};
+}
 
 const tempImageUrl = "/scout.png"
 

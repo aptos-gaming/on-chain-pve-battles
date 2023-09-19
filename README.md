@@ -440,7 +440,7 @@ try {
 }
 ```
 
-PvEBattles module deployed on testnet [here](https://explorer.aptoslabs.com/account/0x4406f062da730ac3d5f0f13f76956263c7bae9795f0b9f06f8a056a02551f149?network=testnet)
+PvEBattles module deployed on testnet [here](https://explorer.aptoslabs.com/account/0x8f08eec7b030f7ec4cdf55c9ece77c30cb90f0564cdd2e7d55c815743d75bd94?network=testnet)
 
 Diagram with all methods inside pve_battles.move:
 ![alt text](https://github.com/aptos-gaming/on-chain-pve-battles/blob/main/pveBattlesDiagram.png)
