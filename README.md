@@ -14,7 +14,7 @@
 9. Create new contract by filling all fields and click "Create Contract"
 10. Click on any created contract in "All Unit Contracts" table and buy some units.
 11. Create new enemy level by filling all fileds in "Create new Enemy Level" form and click "Create Level"
-12. Click on any created enemy level in "All Enenmy Levels" table and attack them.
+12. Click on any created enemy level in "All Enemy Levels" table and attack them.
 
 
 Modules
