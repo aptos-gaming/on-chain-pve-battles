@@ -1,27 +1,27 @@
 module owner_addr::mint_coins {
   use aptos_framework::managed_coin;
 
-  struct Wood {}
-  struct Stone {}
+  struct Minerals {}
+  struct EnergyCrystals {}
 
   fun init_module(owner: &signer) {
-    managed_coin::initialize<Wood>(
+    managed_coin::initialize<Minerals>(
       owner,
-      b"Wood Coin",
-      b"Wood",
+      b"Minerals",
+      b"MNS",
       8,
       true,
     );
 
-    managed_coin::initialize<Stone>(
+    managed_coin::initialize<EnergyCrystals>(
       owner,
-      b"Stone Coin",
-      b"Stone",
+      b"Energy Crystals",
+      b"ECRY",
       8,
       true,
     );
 
-    managed_coin::register<Wood>(owner);
-    managed_coin::register<Stone>(owner);
+    managed_coin::register<Minerals>(owner);
+    managed_coin::register<EnergyCrystals>(owner);
   }
 }

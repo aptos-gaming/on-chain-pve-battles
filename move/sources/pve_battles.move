@@ -16,7 +16,7 @@ module owner_addr::pve_battles {
   use aptos_framework::event::{ Self, EventHandle };
 
   use owner_addr::deploy_coin::deploy_coin;
-  use owner_addr::mint_coins::{ Wood, Stone };
+  use owner_addr::mint_coins::{ Minerals, EnergyCrystals };
 
   struct UnitCoin<phantom X> has store {}
 
@@ -691,13 +691,13 @@ module owner_addr::pve_battles {
 
     assert!(user_addr == @source_addr, E_INVALID_ADDRESS_FOR_MINT);
 
-    managed_coin::register<Wood>(user);
-    managed_coin::register<Stone>(user);
+    managed_coin::register<Minerals>(user);
+    managed_coin::register<EnergyCrystals>(user);
 
     let resource_signer = get_resource_signer();
     
-    managed_coin::mint<Wood>(&resource_signer, user_addr, 10000000000000);
-    managed_coin::mint<Stone>(&resource_signer, user_addr, 10000000000000);
+    managed_coin::mint<Minerals>(&resource_signer, user_addr, 10000000000000);
+    managed_coin::mint<EnergyCrystals>(&resource_signer, user_addr, 10000000000000);
   }
 
   // return all units created by address

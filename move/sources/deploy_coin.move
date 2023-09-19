@@ -1,3 +1,15 @@
+// This module is for dynamically deploying a module for CoinType on-chain,
+// as opposed to submitting a tx from off-chain to publish a module containing the CoinType.
+//
+// Each time you gonna deploy the the following module on deployer account
+//
+// module deployer::coin1 {
+//      struct T has key {}
+// }
+//
+// where deployer is a fixed address, but package and module name can be changed to "coin2, coin3, coin4..." 
+// with passing unique coin_seed
+
 module owner_addr::deploy_coin {
   use std::signer;
   use std::vector;
