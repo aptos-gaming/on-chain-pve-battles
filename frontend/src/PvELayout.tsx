@@ -6,7 +6,7 @@ import { AptosClient } from 'aptos'
 import Decimal from 'decimal.js';
 import { useApolloClient } from '@apollo/client';
 
-import CreateEnemyLevelFrom from './components/CreateEnemyLevelForm'
+import CreateEnemyLevelForm from './components/CreateEnemyLevelForm'
 import CreateUnitForm from './components/CreateUnitForm'
 import CreateUnitContractForm from './components/CreateUnitContractForm'
 import AllContractsTable from './components/AllContractsTable'
@@ -371,7 +371,7 @@ const PvELayout = () => {
             onRemoveContract={onRemoveContract}
           />
           <div className="divider" />
-          <CreateEnemyLevelFrom
+          <CreateEnemyLevelForm
             getEnemysList={getEnemysList}
           />
           <div className="divider" />
